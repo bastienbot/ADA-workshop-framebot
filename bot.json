@@ -1,0 +1,51 @@
+{
+  "id": "22da58f7-2817-4d07-adbc-ee87564a284b",
+  "name": "FrameBot",
+  "description": "Ajoutez des cadres de saison à votre photo de profil !",
+  "default_flow": "Default",
+  "flows": [
+    {
+      "name": "Default",
+      "description": "Default custom flow",
+      "commands": []
+    },
+    {
+      "name": "Intro",
+      "commands": []
+    }
+  ],
+  "files": [
+    {
+      "name": "ADA.png",
+      "description": null
+    },
+    {
+      "name": "plage.png",
+      "description": null
+    },
+    {
+      "name": "summer.png",
+      "description": null
+    },
+    {
+      "name": "vacances.png",
+      "description": null
+    }
+  ],
+  "functions": [],
+  "apps": [
+    {
+      "name": "picture_frame",
+      "description": "Add any custom frame to a picture!",
+      "args": [
+        "base_url=\"\"",
+        "frame_url=\"\""
+      ],
+      "runtime": "nodejs12.x",
+      "handler": "index.handler",
+      "environment": {},
+      "app_id": "28382486-0e1a-44a0-ab95-540e11a0b6e1",
+      "version": "1.0.0"
+    }
+  ]
+}

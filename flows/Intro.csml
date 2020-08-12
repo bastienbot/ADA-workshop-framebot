@@ -1,0 +1,52 @@
+// Ceci est un commentaire, ils commencent tous par //
+// Le CSML ignore les commentaires, ils sont utiles pour les développeurs :3
+
+// Un chatbot commence toujours par l'étape "start" ci-dessous
+start:
+	say "Salut, on m'a dit que tu aimais regarder des films !"
+  // Une fois qu'on a dit bonjour à l'utilisateur, on va lui poser une question
+  // direction l'étape "what_type", on utilise "goto" pour se déplacer entre les étapes
+	goto what_type
+
+what_type:
+  say "Quel film est-ce que tu préfères ?"
+  // On pose une question et on ajoute un "Carousel" avec trois "Card"s
+  say Carousel([
+    // Vous remarquerez qu'on utilise le mot clé "as", il permet au csml de se souvenir de ce bouton
+    // pour s'en servir plus tard (dans le if)
+    Card(
+      "La cité de la peur",
+      subtitle="Ça va couper chérie",
+      image_url="https://fr.web.img2.acsta.net/pictures/19/05/03/14/30/1132544.jpg",
+      buttons=[Button("Sélectionner", payload="citepeur") as citepeur]
+    ),
+    Card(
+      "Star wars",
+      subtitle="Luc, je suis ton père",
+      image_url="https://images-na.ssl-images-amazon.com/images/I/81gtQgB6LQL.jpg",
+      buttons=[Button("Sélectionner", payload="starwars") as starwars]
+    ),
+    Card(
+      "Star wars",
+      subtitle=" La vie c’est comme une boîte de chocolats, on ne sait jamais sur quoi on va tomber",
+      image_url="https://img8.cdn.cinoche.com/images/9d85f441a28d25ff78c327a42b6f7faf.jpg",
+      buttons=[Button("Sélectionner", payload="forestgump") as forestgump]
+    ),
+  ])
+  // "hold" indique au chatbot qu'il doit attendre une réponse de l'utilisateur (une phrase ou un click)
+	hold
+  // La réponse de l'utilisateur va arriver dans la variable "event"
+  // Dans le cas présent on va voir ce que contient cette variable en demandant au csml si event "match" le bouton film
+	if (event match citepeur) {
+    // Si l'utilisateur a cliqué sur la carte La cité de la peur, 
+    // on va demander au csml de se souvenir du mot "La cité de la peur" dans la variable "film"
+    // Nous nous en servirons plus tard ;)
+		remember film = "La cité de la peur"
+	}
+	else if (event match starwars) {
+		remember film = "Star wars"
+	} else {
+    remember film = "forestgump"
+  }
+	say "Je me rappellerai de : {{film}}"
+  goto end

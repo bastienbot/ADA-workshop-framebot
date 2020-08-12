@@ -1,0 +1,112 @@
+start:
+  say "Bonjour {{_metadata.firstname}}"
+  goto end /* On supprime cette ligne pour commencer l'exercice.
+  
+
+  // 1 - Indique au chatbot de montrer qu'il est en train d'écrire pendant trois seconde (3000 ms)
+	?????
+  say "Je suis FrameBot et je vais t'aider à ajouter de jolis cadres à ta photo de profil Workplace."
+  goto photo
+
+photo:
+  if (userPhoto == null) {
+    // 2 - la condition ci-dessus vérifie si une photo existe déja pour l'utilisateur
+    //     si aucune photo n'existe, on doit l'envoyer vers l'étape `askPhoto`
+    //     Attention il faut bien respectre les minuscule/majuscule, copie/colle ;)
+   goto ?????
+  }
+  // 3 - Ci-dessous il manque le mot clé "sinon" (dans le cas ou le chatbot a déja une photo en mémoire)
+  ????? {
+    say "Je me souvient que tu m'as déja envoyé une photo de toi."
+    // 4 - Affiche la photo que le chatbot a en mémoire
+    say Typing(3000)
+    say Image(????)
+  }
+  goto selectFrame
+
+askPhoto:
+  say Typing(1500)
+  say "Envoie-moi une photo de toi ! 📷"
+    // 5 - Demande au chatbot d'attendre que l'utilisateur envoie sa photo
+  ?????
+  say "C'est une belle photo, je trouve..."
+    // 6 - On veut maintenant que le chatbot se souvienne de la photo
+    //     en la mettant dans la variabel `userPhoto` 
+  ????? userPhoto = event
+  goto selectFrame
+
+
+selectFrame:
+  say Typing(1500)
+  say "D'accord, maintenant sélectionnons ensemble un cadre pour ajouter sur ta photo."
+  say Typing(1500)
+  say "C'est l'été, tu prends bientôt des vacances peut-être ? C'est l'occasion de le montrer !"
+  remember ada_url = "https://cdn.csml.dev/customers/4140eea8-4825-4df6-981d-c1ee239884bc/files/d6cbeb4c-3e87-439a-baea-1ddff850def1/cadre-clevy-copie.png"
+  remember vacances_url = "https://bit.ly/clevy-frame-vacances"
+  remember plage_url = "https://bit.ly/clevy-frame-plage"
+  remember summer_url = "https://bit.ly/clevy-frame-summer"
+
+  say Carousel([
+    Card(
+      "ADA",
+      subtitle="ADA pour montrer que t'es un.e dev.e",
+      image_url=ada_url,
+      buttons=[Button("Sélectionner", payload="ada") as ada]
+    ),
+    // 7 - Il faut maintenant compléter les autres "cartes" de Carousel
+    //     pour les calques `vacances_url`, `plage_url`, `summer_url`
+    ?????(
+      "Les vacances",
+      subtitle="Choisir la vacances pour montrer que tu es en congés !",
+      image_url=vacances_url,
+      buttons=[Button("Sélectionner", payload="vacances") as vacances]
+    ),
+    Card(
+      "La plage",
+      subtitle="Si tu prends des vacances à la mer, choisis ce cadre !",
+      image_url=?????,
+      buttons=[Button("Sélectionner", payload="plage") as plage]
+    ),
+    Card(
+      "Les summer",
+      subtitle="Enfin l'été ! Ces summer vont égayer ta photo...",
+      image_url=summer_url,
+      buttons=[?????("Sélectionner", payload="summer") as summer]
+    ),
+  ])
+  hold
+  // 8 - Une fois que l'utilisateur a cliqué, on doit créer quatre condition qui vont chacune vérifier une valeur
+  //     complète les conditions ci-dessous
+  if (????? match vacances) remember frame_url = vacances_url
+  else if (????? match plage) remember frame_url = plage_url
+  else if (????? match summer) remember frame_url = summer_url
+  else if (????? match ada) remember frame_url = ada_url
+  else {
+    say "Je n'ai pas compris... choisis un des cadres proposés !"
+    // 9 - Si l'utilisateur ne clique sur aucune des carte, on doit lui remontrer le carousel
+    ????? ?????
+  }
+
+  do framed = Fn(
+    "picture_frame",
+    base_url=userPhoto,
+    frame_url=frame_url
+  )
+
+  remember framed_url = framed.result
+
+  say "Voilà, ton image est prête !"
+  // 10 - On doit maintenant montrer la photo finale dont l'url est `framed_url`
+  ????? ?????(??????)
+  say Wait(3000)
+  say Typing(1500)
+  say "Mets-la en photo de profil pour que tes amis puissent l'admirer plus facilement !"
+  say Wait(3000)
+
+  say Typing(1500)
+  say Question(
+    "Reviens me voir régulièrement pour avoir de nouveaux cadres ! A bientôt 👋",
+    button_type="quick_reply",
+    buttons=[Button("Recommencer")]
+  )
+  goto end
