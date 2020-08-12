@@ -2,11 +2,11 @@
   "id": "22da58f7-2817-4d07-adbc-ee87564a284b",
   "name": "FrameBot",
   "description": "Ajoutez des cadres de saison à votre photo de profil !",
-  "default_flow": "Default",
+  "default_flow": "Workshop",
   "flows": [
     {
-      "name": "Default",
-      "description": "Default custom flow",
+      "name": "Workshop",
+      "description": "Le flow du workshop",
       "commands": []
     },
     {

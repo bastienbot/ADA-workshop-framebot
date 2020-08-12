@@ -17,7 +17,7 @@ photo:
   }
   // 3 - Ci-dessous il manque le mot clé "sinon" (dans le cas ou le chatbot a déja une photo en mémoire)
   ????? {
-    say "Je me souvient que tu m'as déja envoyé une photo de toi."
+    say "Je me souviens que tu m'as déja envoyé une photo de toi."
     // 4 - Affiche la photo que le chatbot a en mémoire
     say Typing(3000)
     say Image(????)
@@ -57,7 +57,7 @@ selectFrame:
     //     pour les calques `vacances_url`, `plage_url`, `summer_url`
     ?????(
       "Les vacances",
-      subtitle="Choisir la vacances pour montrer que tu es en congés !",
+      subtitle="Pour montrer que tu pars en congés !",
       image_url=vacances_url,
       buttons=[Button("Sélectionner", payload="vacances") as vacances]
     ),
@@ -68,7 +68,7 @@ selectFrame:
       buttons=[Button("Sélectionner", payload="plage") as plage]
     ),
     Card(
-      "Les summer",
+      "Summer",
       subtitle="Enfin l'été ! Ces summer vont égayer ta photo...",
       image_url=summer_url,
       buttons=[?????("Sélectionner", payload="summer") as summer]
