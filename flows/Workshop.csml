@@ -1,4 +1,4 @@
-istart:
+start:
   say "Bonjour {{_metadata.firstname}}"
 
   // 1 - Indique au chatbot de montrer qu'il est en train d'écrire pendant trois seconde (3000 ms)
