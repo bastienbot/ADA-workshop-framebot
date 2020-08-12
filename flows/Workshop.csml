@@ -1,10 +1,8 @@
-start:
+istart:
   say "Bonjour {{_metadata.firstname}}"
-  goto end /* On supprime cette ligne pour commencer l'exercice.
-  
 
   // 1 - Indique au chatbot de montrer qu'il est en train d'écrire pendant trois seconde (3000 ms)
-	?????
+	say Typing(3000)
   say "Je suis FrameBot et je vais t'aider à ajouter de jolis cadres à ta photo de profil Workplace."
   goto photo
 
@@ -13,14 +11,14 @@ photo:
     // 2 - la condition ci-dessus vérifie si une photo existe déja pour l'utilisateur
     //     si aucune photo n'existe, on doit l'envoyer vers l'étape `askPhoto`
     //     Attention il faut bien respectre les minuscule/majuscule, copie/colle ;)
-   goto ?????
+   goto askPhoto
   }
   // 3 - Ci-dessous il manque le mot clé "sinon" (dans le cas ou le chatbot a déja une photo en mémoire)
-  ????? {
+  else {
     say "Je me souviens que tu m'as déja envoyé une photo de toi."
     // 4 - Affiche la photo que le chatbot a en mémoire
     say Typing(3000)
-    say Image(????)
+    say Image(userPhoto)
   }
   goto selectFrame
 
@@ -28,11 +26,11 @@ askPhoto:
   say Typing(1500)
   say "Envoie-moi une photo de toi ! 📷"
     // 5 - Demande au chatbot d'attendre que l'utilisateur envoie sa photo
-  ?????
+  hold
   say "C'est une belle photo, je trouve..."
     // 6 - On veut maintenant que le chatbot se souvienne de la photo
     //     en la mettant dans la variabel `userPhoto` 
-  ????? userPhoto = event
+  remember userPhoto = event
   goto selectFrame
 
 
@@ -55,7 +53,7 @@ selectFrame:
     ),
     // 7 - Il faut maintenant compléter les autres "cartes" de Carousel
     //     pour les calques `vacances_url`, `plage_url`, `summer_url`
-    ?????(
+    Card(
       "Les vacances",
       subtitle="Pour montrer que tu pars en congés !",
       image_url=vacances_url,
@@ -64,27 +62,27 @@ selectFrame:
     Card(
       "La plage",
       subtitle="Si tu prends des vacances à la mer, choisis ce cadre !",
-      image_url=?????,
+      image_url=plage_url,
       buttons=[Button("Sélectionner", payload="plage") as plage]
     ),
     Card(
       "Summer",
       subtitle="Enfin l'été ! Ces summer vont égayer ta photo...",
       image_url=summer_url,
-      buttons=[?????("Sélectionner", payload="summer") as summer]
+      buttons=[Button("Sélectionner", payload="summer") as summer]
     ),
   ])
   hold
-  // 8 - Une fois que l'utilisateur a cliqué, on doit créer quatre condition qui vont chacune vérifier une valeur
+  // 8 - Une fois que l'utilisateur a cliqué, on doit créer quatre conditions qui vont chacune vérifier une valeur
   //     complète les conditions ci-dessous
-  if (????? match vacances) remember frame_url = vacances_url
-  else if (????? match plage) remember frame_url = plage_url
-  else if (????? match summer) remember frame_url = summer_url
-  else if (????? match ada) remember frame_url = ada_url
+  if (event match vacances) remember frame_url = vacances_url
+  else if (event match plage) remember frame_url = plage_url
+  else if (event match summer) remember frame_url = summer_url
+  else if (event match ada) remember frame_url = ada_url
   else {
     say "Je n'ai pas compris... choisis un des cadres proposés !"
-    // 9 - Si l'utilisateur ne clique sur aucune des carte, on doit lui remontrer le carousel
-    ????? ?????
+    // 9 - Si l'utilisateur ne clique sur aucune des cartes, on doit lui remontrer le carousel
+    goto selectFrame
   }
 
   do framed = Fn(
@@ -97,7 +95,7 @@ selectFrame:
 
   say "Voilà, ton image est prête !"
   // 10 - On doit maintenant montrer la photo finale dont l'url est `framed_url`
-  ????? ?????(??????)
+  say Image(framed_url)
   say Wait(3000)
   say Typing(1500)
   say "Mets-la en photo de profil pour que tes amis puissent l'admirer plus facilement !"
@@ -110,3 +108,4 @@ selectFrame:
     buttons=[Button("Recommencer")]
   )
   goto end
+
